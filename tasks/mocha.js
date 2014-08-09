@@ -1,12 +1,14 @@
 'use strict';
 
-var mocha = require('gulp-mocha'),
-    util  = require('gulp-util');
+var mocha = require('gulp-mocha');
 
 module.exports = function (gulp) {
 
-    gulp.src(this.src)
-        .pipe(mocha(this.options))
-        .on('error', util.log);
+    var config = this.config,
+        file   = this.file;
+
+    gulp.src(file.src)
+        .pipe(mocha(config.options))
+        .on('error', gulp.util.log);
 
 };

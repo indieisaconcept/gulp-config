@@ -13,8 +13,11 @@ var jshint  = require('gulp-jshint'),
 
 module.exports = function (gulp) {
 
-    return gulp.src(this.src)
-        .pipe(jshint(this.options))
+    var config = this.config,
+        file   = this.file;
+
+    return this.src(file.src)
+        .pipe(jshint(config.options))
         .pipe(jshint.reporter(stylish))
         .on('error', gulp.util.log);
 

@@ -4,7 +4,7 @@
   "description": "Provides Grunt like config support to gulp",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "./node_modules/.bin/gulp test"
   },
   "repository": {
     "type": "git",
@@ -13,7 +13,8 @@
   "keywords": [
     "gulp",
     "grunt",
-    "config"
+    "config",
+    "gulpplugin"
   ],
   "author": "Jonathan Barnett <me@indieisaconcept.com>",
   "license": "ISC",
@@ -24,11 +25,8 @@
   "devDependencies": {
     "chai": "^1.9.1",
     "gulp": "^3.8.7",
-    "gulp-istanbul": "^0.2.1",
     "gulp-jshint": "^1.8.4",
-    "gulp-load-plugins": "^0.5.3",
     "gulp-mocha": "^0.5.1",
-    "gulp-plumber": "^0.6.4",
     "gulp-util": "^3.0.0",
     "jshint-stylish": "^0.4.0",
     "sinon": "^1.10.3"

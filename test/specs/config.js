@@ -14,17 +14,27 @@ var config = require('../../lib'),
 
     // mock gulp for testing
 
-    gulp = sinon.stub({
-        task: function () {},
-        tasks: {}
-    }),
+    gulp = {
+        stub: sinon.stub({
+            task: function () {},
+            tasks: {}
+        }),
+        orig: require('gulp')
+    },
+
+    fixture = {
+        test: {
+            options: {},
+            foo: ['some/path/**/.js']
+        }
+    },
 
     helper;
 
 describe('gulp-config', function () {
 
     before(function () {
-        helper = config(gulp);
+        helper = config(gulp.stub);
     });
 
     it('is defined', function () {
@@ -36,7 +46,39 @@ describe('gulp-config', function () {
     });
 
     it('extends gulp with gulp-utils', function () {
-        expect(gulp.util).to.be.a('object');
+        expect(gulp.stub.util).to.be.a('object');
+    });
+
+    describe('tasks', function () {
+
+        it('registers a task', function (done) {
+
+            var helper = config(gulp.orig, {
+
+                    // manually create a task for
+                    // testing
+
+                    tasks: {
+
+                        test: function (gulp, cb) {
+
+                            var config = this.config,
+                                file   = this.file;
+
+                            expect(file.src).to.eql(fixture.test.foo);
+                            return done();
+
+                        }
+
+                    }
+
+                });
+
+            helper(fixture);
+            gulp.orig.start(['test']);
+
+        });
+
     });
 
 });
