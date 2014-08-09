@@ -21,3 +21,5 @@ config({
     mocha   : { specs: '<%=paths.tests%>'  }
 
 });
+
+gulp.task('test', ['jshint', 'mocha']);
