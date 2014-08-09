@@ -42,6 +42,8 @@ config({
 
 **`gulp-config`** will auto discover by default any tasks located in the nearest `tasks` directory. This directory can be changed by passing in options when first intializing `gulp-config` ( see options )
 
+**Take a look at this projects gruntfile and tasks directory for a working example.**
+
 ## config
 
 When tasks are registered via `gulp-config`, all sub targets will be made available via the parent task name. So for example running `> gulp jshint` will run all `jshint` targets whilst `> gulp jshint:foo` will only run the foo target.
