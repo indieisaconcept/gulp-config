@@ -9,6 +9,7 @@ Note the following gulp plugins are used within this plugin by default.
 ### Caveates
 
 - only a partial implementation of grunt config management
+- more test coverage needed
 - [gulp-util](https://github.com/gulpjs/gulp-util) included by default
 - [gulp-help](https://github.com/chmontgomery/gulp-help) included by default
 
