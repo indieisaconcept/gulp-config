@@ -11,7 +11,7 @@ config({
 
     paths: {
         source: ['./lib/**/*.js'],
-        tests : ['./test/**/*.js', '!test/{temp,coverage}/**}']
+        tests : ['./test/**/*.js']
     },
 
     // tasks
