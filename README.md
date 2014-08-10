@@ -135,7 +135,7 @@ module.exports = function (gulp) {
 
 };
 ```
-Tasks registered in this manner will have access to access to a config object and a file object.
+Tasks registered in this manner will have access to a config object and a file object.
 
 - The config object, is the current targets options based upon a processed config.
 - The file object contains the current targets src and dest properties.
