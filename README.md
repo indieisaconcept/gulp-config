@@ -4,14 +4,18 @@
 
 **`gulp-config`** provides grunt like config management for gulp tasks. 
 
-Note the following gulp plugins are used within this plugin by default.
+## Why
+
+- Even code sometimes needs a little config
+- Keep gulpfile small and lean
+- Modular task management
+- Portability
 
 ### Caveates
 
 - only a partial implementation of grunt config management
 - more test coverage needed
-- [gulp-util](https://github.com/gulpjs/gulp-util) included by default
-- [gulp-help](https://github.com/chmontgomery/gulp-help) included by default
+- [gulp-help](https://github.com/chmontgomery/gulp-help) included by default ( this may be removed )
 
 ## Install
 
@@ -53,30 +57,33 @@ Config files can also reference other config values in the same manner as grunt,
 
 ```
 {
-	'plugin': {
-	
+    'plugin': {	
 		options 		: {}, 			// global options
-		aliases 		: ['foo'],  	// alias names for task
-		description 	: '', 			// task description for help
-		help 			: true | false	// visible in help ( default false )
-		
 		target: {
-
-			aliases 	: ['foo'],  	// alias names for task
-			description : '', 			// task description for help
-			help 		: true | false	// visible in help ( default true )
 			options		: {}, 			// target options ( merged with global )
-			
 			src 		: ['some/path'],
 			dest		: 'some/des'
 		},
-		
 		target: ['some/path']
 	}
 	
 {
 ```
-> Example config
+
+### help
+
+**`gulp-config`** also comes bundled with [gulp-help](https://github.com/chmontgomery/gulp-help). This allows more detail to be added to your config which will be exposed when you run `> gulp help`.
+
+```javascript
+{
+	aliases 		: ['foo'],  	// alias names for task
+	description 	: '', 			// task description for help
+	help 			: true | false	// visible in help
+}
+```
+> Example help options
+
+This options can be added to plugin or target keys.
 
 ## Options
 
@@ -119,9 +126,12 @@ Tasks registered via gulp-config should follow the pattern below;
 module.exports = function (gulp) {
 
 	var config = this.config,
-		 file   = this.file;
+		 file  = this.file;
 		 
 	// task code ......
+    
+    gulp.src(file.src)
+        .pipe(someplugin(config.option))
 
 };
 ```
@@ -136,6 +146,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+- **0.1.1** Revised documentation
 - **0.1.0** Initial release
 
 ## License
