@@ -1,6 +1,6 @@
 {
   "name": "gulp-config",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Provides Grunt like config support to gulp",
   "main": "./lib/index.js",
   "scripts": {
