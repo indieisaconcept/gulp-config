@@ -4,11 +4,11 @@ var mocha = require('gulp-mocha');
 
 module.exports = function (gulp) {
 
-    var config = this.config,
-        file   = this.file;
+    var options = this.options(),
+        file    = this.file;
 
     gulp.src(file.src)
-        .pipe(mocha(config.options))
+        .pipe(mocha(options))
         .on('error', gulp.util.log);
 
 };
