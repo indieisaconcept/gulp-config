@@ -128,12 +128,12 @@ module.exports = function (gulp) {
 	var options = this.options({
             level: 'two'
         }),
-		 file  = this.file;
+		file  = this.file;
 		 
 	// task code ......
     
     gulp.src(file.src)
-        .pipe(someplugin(config.option))
+        .pipe(someplugin(options))
 
 };
 ```
