@@ -110,7 +110,7 @@ For convenience, gulp-util is available automatically via gulp.util within a tas
 
 ```javascript
 var gulp   = require('gulp'),
-    config = require('./lib')(gulp, {
+    config = require('gulp-config')(gulp, {
     	tasks: ['some/path/*/*.js', 'some/other/path/**/*.js']
     });
 ```
@@ -119,7 +119,7 @@ var gulp   = require('gulp'),
 
 ```javascript
 var gulp   = require('gulp'),
-    config = require('./lib')(gulp, {
+    config = require('gulp-config')(gulp, {
     	tasks: {
     		jshint: function (gulp) {
     			// my custom task
