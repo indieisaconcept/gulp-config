@@ -15,7 +15,6 @@
 
 - only a partial implementation of grunt config management
 - more test coverage needed
-- [gulp-help](https://github.com/chmontgomery/gulp-help) included by default ( this may be removed )
 
 ## Install
 
@@ -72,7 +71,17 @@ Config files can also reference other config values in the same manner as grunt,
 
 ### help
 
-**`gulp-config`** also comes bundled with [gulp-help](https://github.com/chmontgomery/gulp-help). This allows more detail to be added to your config which will be exposed when you run `> gulp help`.
+**`gulp-config`** can support [gulp-help](gulp-help), when told to do so. 
+
+```javascript
+var gulp   = require('gulp'),
+	helper = require('gulp-help'),
+    config = require('gulp-config')(gulp, {
+    	help: true
+    });
+```
+
+This allows more detail to be added to your config which will be exposed when you run `> gulp help`.
 
 ```javascript
 {
@@ -148,6 +157,9 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+- **0.2.0**
+    - gulp-help is nolonger bundled, use options.help
+    - this.config nolonger available
 - **0.1.5**
     - added this.options()
     - deprecated this.config
@@ -161,6 +173,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 Copyright (c) 2014 Jonathan Barnett. Licensed under the ISC license.
 
+[gulp-help]: https://github.com/chmontgomery/gulp-help
 [npm-url]: https://npmjs.org/package/gulp-config
 [npm-image]: https://badge.fury.io/js/gulp-config.svg
 [travis-url]: https://travis-ci.org/indieisaconcept/gulp-config

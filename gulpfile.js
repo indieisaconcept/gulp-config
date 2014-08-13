@@ -1,7 +1,8 @@
 'use strict';
 
 var gulp   = require('gulp'),
-    config = require('./lib')(gulp);
+    help   = require('gulp-help')(gulp),
+    config = require('./lib')(gulp, { help: true });
 
 // ===================
 // CONFIG
