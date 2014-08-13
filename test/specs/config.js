@@ -88,6 +88,25 @@ describe('gulp-config', function () {
                         level: 'two'
                     }).level).to.eql('two');
                 }
+            }, {
+                label : 'this.name is set correctly',
+                assert: function (spy, index) {
+                    var scope = spy.thisValues[0];
+                    console.log(scope);
+                    expect(scope.name).to.eql(index.toString());
+                }
+            }, {
+                label : 'this.nameArgs is set correctly',
+                assert: function (spy, index) {
+                    var scope = spy.thisValues[0];
+                    expect(scope.nameArgs).to.eql(index.toString() + ':foo');
+                }
+            }, {
+                label : 'this.target is set correctly',
+                assert: function (spy, index) {
+                    var scope = spy.thisValues[0];
+                    expect(scope.target).to.eql('foo');
+                }
             }
         ];
 
@@ -121,7 +140,7 @@ describe('gulp-config', function () {
                     if (!tasks[index].called) {
                         setTimeout(check, 100);
                     } else {
-                        return test.assert(tasks[index]), done();
+                        return test.assert(tasks[index], index), done();
                     }
 
                 }());
