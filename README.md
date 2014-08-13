@@ -125,7 +125,9 @@ Tasks registered via gulp-config should follow the pattern below;
 ```javascript
 module.exports = function (gulp) {
 
-	var config = this.config,
+	var options = this.options({
+            level: 'two'
+        }),
 		 file  = this.file;
 		 
 	// task code ......
@@ -146,6 +148,9 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+- **0.1.5**
+    - added this.options()
+    - deprecated this.config
 - **0.1.4** file.src fix
 - **0.1.3** Lack of sleep
 - **0.1.2** Expose main ( silly mistake )

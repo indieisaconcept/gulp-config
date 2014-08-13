@@ -13,7 +13,7 @@ var expect = require('chai').expect,
 
 describe('util', function () {
 
-    ['_', 'format', 'glob', 'config'].forEach(function (method) {
+    ['_', 'format', 'glob', 'config', 'deprecate'].forEach(function (method) {
         it('has an "' + method + '" method', function () {
             expect(util[method]).to.be.a('function');
         })

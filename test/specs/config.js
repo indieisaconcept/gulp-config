@@ -22,13 +22,6 @@ var config = require('../../lib'),
         orig: require('gulp')
     },
 
-    fixture = {
-        test: {
-            options: {},
-            foo: ['some/path/**/.js']
-        }
-    },
-
     helper;
 
 describe('gulp-config', function () {
@@ -51,31 +44,80 @@ describe('gulp-config', function () {
 
     describe('tasks', function () {
 
-        it('registers a task', function (done) {
+        var tasks   = {},
+            fixture = {},
+            spies   = {},
+            tests   = [];
 
-            var helper = config(gulp.orig, {
+        tests = [
+            {
+                label : 'registers a task',
+                assert: function (spy) {
+                    expect(spy.called).to.be.true;
+                }
+            },
+            {
+                label : 'this.config exists',
+                assert: function (spy) {
+                    var scope = spy.thisValues[0];
+                    expect(scope.config).to.be.object;
+                }
+            },
+            {
+                label : 'this.options() exists',
+                assert: function (spy) {
+                    var scope = spy.thisValues[0];
+                    expect(scope.options).to.be.a('function');
+                    expect(scope.options().level).to.eql('one');
+                }
+            },
+            {
+                label : 'this.options() overides a value',
+                assert: function (spy) {
+                    var scope = spy.thisValues[0];
+                    expect(scope.options({
+                        level: 'two'
+                    }).level).to.eql('two');
+                }
+            }
+        ];
 
-                    // manually create a task for
-                    // testing
+        before(function () {
 
-                    tasks: {
+            tests.forEach(function (test, index) {
 
-                        test: function (gulp, cb) {
+                tasks[index] = sinon.spy();
 
-                            var config = this.config,
-                                file   = this.file;
+                fixture[index] = {
+                    options: {
+                        level: 'one'
+                    },
+                    foo    : ['some/path/**/.js']
+                };
 
-                            expect(file.src).to.eql(fixture.test.foo);
-                            return done();
+            });
 
-                        }
+            config(gulp.orig, { tasks: tasks })(fixture);
 
+        });
+
+        tests.forEach(function (test, index) {
+
+            it(test.label, function (done) {
+
+                gulp.orig.start([index + ':foo']);
+
+                (function check() {
+
+                    if (!tasks[index].called) {
+                        setTimeout(check, 100);
+                    } else {
+                        return test.assert(tasks[index]), done();
                     }
 
-                });
+                }());
 
-            helper(fixture);
-            gulp.orig.start(['test']);
+            });
 
         });
 
