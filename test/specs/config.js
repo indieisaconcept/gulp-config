@@ -55,23 +55,32 @@ describe('gulp-config', function () {
                 assert: function (spy) {
                     expect(spy.called).to.be.true;
                 }
-            },
-            {
+            }, {
+                label : 'this.file exists',
+                assert: function (spy) {
+                    var scope = spy.thisValues[0];
+                    expect(scope.file).to.be.object;
+                }
+            }, {
+                label : 'this.files exists',
+                assert: function (spy) {
+                    var scope = spy.thisValues[0];
+                    expect(scope.files).to.be.object;
+                }
+            }, {
                 label : 'this.config exists',
                 assert: function (spy) {
                     var scope = spy.thisValues[0];
                     expect(scope.config).to.be.object;
                 }
-            },
-            {
+            }, {
                 label : 'this.options() exists',
                 assert: function (spy) {
                     var scope = spy.thisValues[0];
                     expect(scope.options).to.be.a('function');
                     expect(scope.options().level).to.eql('one');
                 }
-            },
-            {
+            }, {
                 label : 'this.options() overides a value',
                 assert: function (spy) {
                     var scope = spy.thisValues[0];
