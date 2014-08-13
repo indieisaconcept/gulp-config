@@ -92,7 +92,6 @@ describe('gulp-config', function () {
                 label : 'this.name is set correctly',
                 assert: function (spy, index) {
                     var scope = spy.thisValues[0];
-                    console.log(scope);
                     expect(scope.name).to.eql(index.toString());
                 }
             }, {
