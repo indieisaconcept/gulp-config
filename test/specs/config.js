@@ -78,7 +78,7 @@ describe('gulp-config', function () {
             });
 
             gulp.orig.task('default', function (cb) {
-                sequence('one', 'two', 'three', cb);
+                sequence('one:foo', 'two:foo', 'three', cb);
             });
 
             gulp.orig.start(['default']);
