@@ -1,6 +1,6 @@
 {
   "name": "gulp-config",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Provides Grunt like config support to gulp",
   "main": "./lib/index.js",
   "scripts": {
@@ -29,6 +29,7 @@
     "gulp-jshint": "^1.8.4",
     "gulp-mocha": "^0.5.2",
     "jshint-stylish": "^0.4.0",
+    "run-sequence": "^0.3.6",
     "sinon": "^1.10.3"
   },
   "dependencies": {

@@ -16,7 +16,7 @@ module.exports = function (gulp) {
     var options = this.options(),
         file    = this.file;
 
-    return this.src(file.src)
+    return gulp.src(file.src)
         .pipe(jshint(options))
         .pipe(jshint.reporter(stylish))
         .on('error', gulp.util.log);

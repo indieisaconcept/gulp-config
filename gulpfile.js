@@ -11,7 +11,7 @@ var gulp   = require('gulp'),
 config({
 
     paths: {
-        source: ['./lib/**/*.js'],
+        source: ['./lib/**/*.js', './tasks/**/*.js'],
         tests : ['./test/**/*.js']
     },
 

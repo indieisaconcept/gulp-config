@@ -56,22 +56,28 @@ Config files can also reference other config values in the same manner as grunt,
 
 ```
 {
-    'plugin': {	
+    'plugin': {
 		options 		: {}, 			// global options
-		target: {
+		target_1: {
 			options		: {}, 			// target options ( merged with global )
 			src 		: ['some/path'],
 			dest		: 'some/des'
 		},
-		target: ['some/path']
+		target_2: ['some/path'],
+        target_3: 'some/path',
+        target_4: {
+            files: {
+                'dest/path': 'source/path'
+            }
+        }
 	}
-	
+
 {
 ```
 
 ### help
 
-**`gulp-config`** can support [gulp-help](gulp-help), when told to do so. 
+**`gulp-config`** can support [gulp-help](gulp-help), when told to do so.
 
 ```javascript
 var gulp   = require('gulp'),
@@ -137,10 +143,11 @@ module.exports = function (gulp) {
 	var options = this.options({
             level: 'two'
         }),
-		file  = this.file;
-		 
+		file  = this.file,   // object
+        files = this.files;  // array
+
 	// task code ......
-    
+
     gulp.src(file.src)
         .pipe(someplugin(options))
 
@@ -157,6 +164,9 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+- **0.2.1**
+    - task scope fixes
+    - this.files support added
 - **0.2.0**
     - gulp-help is nolonger bundled, use options.help
     - this.config nolonger available

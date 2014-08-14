@@ -8,9 +8,10 @@
 
 'use strict';
 
-var config = require('../../lib'),
-    sinon  = require('sinon'),
-    expect = require('chai').expect,
+var config   = require('../../lib'),
+    sequence = require('run-sequence'),
+    sinon    = require('sinon'),
+    expect   = require('chai').expect,
 
     // mock gulp for testing
 
@@ -45,105 +46,126 @@ describe('gulp-config', function () {
     describe('tasks', function () {
 
         var tasks   = {},
-            fixture = {},
-            spies   = {},
-            tests   = [];
+            fixture = {};
 
-        tests = [
-            {
-                label : 'registers a task',
-                assert: function (spy) {
-                    expect(spy.called).to.be.true;
-                }
-            }, {
-                label : 'this.file exists',
-                assert: function (spy) {
-                    var scope = spy.thisValues[0];
-                    expect(scope.file).to.be.object;
-                }
-            }, {
-                label : 'this.files exists',
-                assert: function (spy) {
-                    var scope = spy.thisValues[0];
-                    expect(scope.files).to.be.object;
-                }
-            }, {
-                label : 'this.config exists',
-                assert: function (spy) {
-                    var scope = spy.thisValues[0];
-                    expect(scope.config).to.be.object;
-                }
-            }, {
-                label : 'this.options() exists',
-                assert: function (spy) {
-                    var scope = spy.thisValues[0];
-                    expect(scope.options).to.be.a('function');
-                    expect(scope.options().level).to.eql('one');
-                }
-            }, {
-                label : 'this.options() overides a value',
-                assert: function (spy) {
-                    var scope = spy.thisValues[0];
-                    expect(scope.options({
-                        level: 'two'
-                    }).level).to.eql('two');
-                }
-            }, {
-                label : 'this.name is set correctly',
-                assert: function (spy, index) {
-                    var scope = spy.thisValues[0];
-                    expect(scope.name).to.eql(index.toString());
-                }
-            }, {
-                label : 'this.nameArgs is set correctly',
-                assert: function (spy, index) {
-                    var scope = spy.thisValues[0];
-                    expect(scope.nameArgs).to.eql(index.toString() + ':foo');
-                }
-            }, {
-                label : 'this.target is set correctly',
-                assert: function (spy, index) {
-                    var scope = spy.thisValues[0];
-                    expect(scope.target).to.eql('foo');
-                }
-            }
-        ];
+        before(function (done) {
 
-        before(function () {
+            // create spys
 
-            tests.forEach(function (test, index) {
+            tasks.one = sinon.spy();
+            tasks.two = sinon.spy();
 
-                tasks[index] = sinon.spy();
+            // setup config fixtures
 
-                fixture[index] = {
-                    options: {
-                        level: 'one'
-                    },
-                    foo    : ['some/path/**/.js']
-                };
+            fixture.one = { options: { level: 'one' }, foo: ['some/path/**/.js'] };
+            fixture.two = {
+                foo: {
+                    files: {
+                        '/a/b': '/c/d',
+                        '/e/f': '/f/h'
+                    }
+                }
+            };
 
-            });
+            // intialize
 
             config(gulp.orig, { tasks: tasks })(fixture);
 
+            // tasks
+
+            gulp.orig.task('three', function () {
+                done();
+            });
+
+            gulp.orig.task('default', function (cb) {
+                sequence('one', 'two', 'three', cb);
+            });
+
+            gulp.orig.start(['default']);
+
         });
 
-        tests.forEach(function (test, index) {
+        it('registers a task', function () {
+            expect(tasks.one.called).to.be.true;
+            expect(tasks.two.called).to.be.true;
+        });
 
-            it(test.label, function (done) {
+        it('this.file exists', function () {
 
-                gulp.orig.start([index + ':foo']);
+            ['one', 'two'].forEach(function (item) {
+                var scope = tasks[item].thisValues[0];
+                expect(scope.file).to.be.a('object');
+            });
 
-                (function check() {
+        });
 
-                    if (!tasks[index].called) {
-                        setTimeout(check, 100);
-                    } else {
-                        return test.assert(tasks[index], index), done();
-                    }
+        it('this.files exists', function () {
 
-                }());
+            ['one', 'two'].forEach(function (item) {
 
+                var scope = tasks[item].thisValues[0];
+                expect(scope.files).to.be.a('array');
+
+                switch(item) {
+
+                    case 'one':
+                        expect(scope.files.length).to.eql(1);
+                        break;
+                    case 'two':
+                        expect(scope.files.length).to.eql(2);
+                        expect(scope.files[0].src).to.eql('/c/d');
+                        expect(scope.files[0].dest).to.eql('/a/b');
+                        break;
+
+                }
+
+            });
+
+        });
+
+        it('this.options() exists', function () {
+
+            ['one', 'two'].forEach(function (item) {
+                var scope = tasks[item].thisValues[0];
+                expect(scope.options).to.be.a('function');
+            });
+
+        });
+
+        it('this.options() overrides or sets a value', function () {
+
+            ['one', 'two'].forEach(function (item) {
+                var scope = tasks[item].thisValues[0];
+                expect(scope.options({
+                    level: 'two'
+                }).level).to.eql('two');
+            });
+
+        });
+
+        it('this.name is set correctly', function () {
+
+            ['one', 'two'].forEach(function (item) {
+                var scope = tasks[item].thisValues[0];
+                expect(scope.name).to.eql(item);
+            });
+
+        });
+
+        it('this.nameArgs is set correctly', function () {
+
+            ['one', 'two'].forEach(function (item) {
+                var scope = tasks[item].thisValues[0];
+                expect(scope.nameArgs).to.eql(item + ':foo');
+            });
+
+        });
+
+        it('this.target is set correctly', function () {
+
+            ['one', 'two'].forEach(function (item) {
+                var scope = tasks[item].thisValues[0];
+                expect(scope.target).to.eql('foo');
             });
 
         });
