@@ -93,18 +93,17 @@ This allows more detail to be added to your config which will be exposed when yo
 {
 	aliases 		: ['foo'],  	// alias names for task
 	description 	: '', 			// task description for help
-	help 			: true | false	// visible in help
 }
 ```
 > Example help options
 
-This options can be added to plugin or target keys.
+These options can be added to plugin or target keys. Note description can be set to either a string to override the default or a boolean. If you wish to hide a description in help set the value to false.
 
 ## Options
 
 When first initilizing `gulp-config`, an options object can be passed which can be used to customize where tasks are located.
 
-### tasks 
+### tasks
 
 This is used to set where tasks can be found. Passing a single path is supported, in addition an array of paths can also be specified. All paths support glob style matching.
 
@@ -164,6 +163,8 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+- **0.2.2**
+    - removed task.help && target.help (task|target).description now toggles help display
 - **0.2.1**
     - task scope fixes
     - this.files support added
