@@ -2,7 +2,7 @@
 
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-url]][daviddm-image]
 
-**`gulp-config`** provides grunt like config management for gulp tasks. 
+**`gulp-config`** provides grunt like config management for gulp tasks.
 
 ## Why
 
@@ -163,6 +163,8 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+- **0.3.0**
+    - restore gulp async behaviour
 - **0.2.2**
     - removed task.help && target.help (task|target).description now toggles help display
 - **0.2.1**
