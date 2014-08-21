@@ -137,7 +137,7 @@ var gulp   = require('gulp'),
 Tasks registered via gulp-config should follow the pattern below;
 
 ```javascript
-module.exports = function (gulp) {
+module.exports = function (gulp /* , cb */) {
 
 	var options = this.options({
             level: 'two'
@@ -163,7 +163,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
-- **0.3.0**
+- **0.2.3**
     - restore gulp async behaviour
 - **0.2.2**
     - removed task.help && target.help (task|target).description now toggles help display
