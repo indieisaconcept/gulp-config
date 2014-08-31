@@ -8,12 +8,13 @@
 
 'use strict';
 
-var config   = require('../../lib'),
+var fs       = require('mock-fs'),
+    config   = require('../../lib'),
     sequence = require('run-sequence'),
     sinon    = require('sinon'),
     expect   = require('chai').expect,
 
-    // mock gulp for testing
+    // mock for testing
 
     gulp = {
         stub: sinon.stub({
@@ -50,6 +51,22 @@ describe('gulp-config', function () {
 
         before(function (done) {
 
+            // create file system mocks
+
+            fs({
+                '/a/b': {},
+                '/e/f': {},
+                '/c/d': {
+                    'test.js': '// test.js'
+                },
+                '/f/h': {
+                    'test.js': '// test.js'
+                },
+                'some/path': {
+                    'test.js': '// test.js'
+                }
+            });
+
             // create spys
 
             tasks.one = sinon.spy();
@@ -61,8 +78,8 @@ describe('gulp-config', function () {
             fixture.two = {
                 foo: {
                     files: {
-                        '/a/b': '/c/d',
-                        '/e/f': '/f/h'
+                        '/a/b': '/c/d/*.js',
+                        '/e/f': '/f/h/*.js'
                     }
                 }
             };
@@ -113,7 +130,7 @@ describe('gulp-config', function () {
                         break;
                     case 'two':
                         expect(scope.files.length).to.eql(2);
-                        expect(scope.files[0].src).to.eql('/c/d');
+                        expect(scope.files[0].src[0]).to.eql('/c/d/test.js');
                         expect(scope.files[0].dest).to.eql('/a/b');
                         break;
 
@@ -128,6 +145,15 @@ describe('gulp-config', function () {
             ['one', 'two'].forEach(function (item) {
                 var scope = tasks[item].thisValues[0];
                 expect(scope.options).to.be.a('function');
+            });
+
+        });
+
+        it('this.config() exists', function () {
+
+            ['one', 'two'].forEach(function (item) {
+                var scope = tasks[item].thisValues[0];
+                expect(scope.config).to.be.a('function');
             });
 
         });

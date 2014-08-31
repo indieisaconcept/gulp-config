@@ -8,8 +8,9 @@
 
 'use strict';
 
-var expect = require('chai').expect,
-    config = require('../../lib/util').config,
+var expect   = require('chai').expect,
+    config   = require('../../lib/util').config,
+    expander = require('expander'),
 
     fixture = {
         source: {
@@ -17,9 +18,10 @@ var expect = require('chai').expect,
                 test: [1, 2, 3]
             },
             foo: {
-                bar: 'world'
+                bar: 'hello',
+                buzz: 'world'
             },
-            hello: '<%=foo.bar%>',
+            interpolation: '<%=foo.bar%> <%=foo.buzz%>',
             bar: '<%=foo%>',
             buzz: '<%=paths.test%>'
         },
@@ -28,11 +30,13 @@ var expect = require('chai').expect,
                 test: [1, 2, 3]
             },
             foo: {
-                bar: 'world'
+                bar: 'hello',
+                buzz: 'world'
             },
-            hello: 'world',
+            interpolation: 'hello world',
             bar: {
-                bar: 'world'
+                bar: 'hello',
+                buzz: 'world'
             },
             buzz: [1, 2, 3]
         }
@@ -42,13 +46,13 @@ describe('util config', function () {
 
     it('returns a resolved config object', function () {
         var result = config(fixture.source);
-        expect(result).to.be.a('object');
-        expect(result).to.eql(fixture.expected);
+        expect(result).to.be.a('function');
+        expect(result()).to.eql(fixture.expected);
     });
 
     it('throws an error if a non-object is passed', function () {
-        expect(config()).to.throw;
-        expect(config([])).to.throw;
+        expect(config).to.throw;
+        expect(config.bind(null, [])).to.throw;
     });
 
 });

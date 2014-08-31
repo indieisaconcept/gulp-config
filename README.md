@@ -163,6 +163,10 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+- **0.2.4**
+    - tasks can access another tasks config via this.config()
+    - added template interpolation via [expander](https://github.com/tkellen/node-expander)
+    - added file.src expanding via [node-configfiles](https://github.com/tkellen/node-configfiles)
 - **0.2.3**
     - restore gulp async behaviour
 - **0.2.2**
