@@ -57,20 +57,20 @@ Config files can also reference other config values in the same manner as grunt,
 ```
 {
     'plugin': {
-		options 		: {}, 			// global options
-		target_1: {
-			options		: {}, 			// target options ( merged with global )
-			src 		: ['some/path'],
-			dest		: 'some/des'
-		},
-		target_2: ['some/path'],
+        options 		: {}, 			// global options
+        target_1: {
+            options		: {}, 			// target options ( merged with global )
+            src 		: ['some/path'],
+            dest		: 'some/des'
+        },
+        target_2: ['some/path'],
         target_3: 'some/path',
         target_4: {
             files: {
                 'dest/path': 'source/path'
             }
         }
-	}
+    }
 
 {
 ```
@@ -81,9 +81,9 @@ Config files can also reference other config values in the same manner as grunt,
 
 ```javascript
 var gulp   = require('gulp'),
-	helper = require('gulp-help'),
+    helper = require('gulp-help'),
     config = require('gulp-config')(gulp, {
-    	help: true
+        help: true
     });
 ```
 
@@ -91,8 +91,8 @@ This allows more detail to be added to your config which will be exposed when yo
 
 ```javascript
 {
-	aliases 		: ['foo'],  	// alias names for task
-	description 	: '', 			// task description for help
+    aliases 		: ['foo'],  	// alias names for task
+    description 	: '', 			// task description for help
 }
 ```
 > Example help options
@@ -116,7 +116,7 @@ For convenience, gulp-util is available automatically via gulp.util within a tas
 ```javascript
 var gulp   = require('gulp'),
     config = require('gulp-config')(gulp, {
-    	tasks: ['some/path/*/*.js', 'some/other/path/**/*.js']
+        tasks: ['some/path/*/*.js', 'some/other/path/**/*.js']
     });
 ```
 
@@ -125,11 +125,11 @@ var gulp   = require('gulp'),
 ```javascript
 var gulp   = require('gulp'),
     config = require('gulp-config')(gulp, {
-    	tasks: {
-    		jshint: function (gulp) {
-    			// my custom task
-    		}
-    	}
+        tasks: {
+            jshint: function (gulp) {
+                // my custom task
+            }
+        }
     });
 ```
 ### tasks
@@ -139,13 +139,13 @@ Tasks registered via gulp-config should follow the pattern below;
 ```javascript
 module.exports = function (gulp /* , cb */) {
 
-	var options = this.options({
+    var options = this.options({
             level: 'two'
         }),
-		file  = this.file,   // object
+        file  = this.file,   // object
         files = this.files;  // array
 
-	// task code ......
+    // task code ......
 
     gulp.src(file.src)
         .pipe(someplugin(options))
@@ -163,6 +163,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+- **0.3.0** Fix incorrect behavior of this.options() to use _.defaults
 - **0.2.4**
     - tasks can access another tasks config via this.config()
     - added template interpolation via [expander](https://github.com/tkellen/node-expander)

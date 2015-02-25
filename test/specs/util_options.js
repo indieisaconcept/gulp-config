@@ -11,7 +11,7 @@
 var expect  = require('chai').expect,
     options = require('../../lib/util').options,
 
-    fixture = {
+    current = {
         level: 'one'
     };
 
@@ -22,15 +22,28 @@ describe('util options', function () {
     });
 
     it('returns an object', function () {
-        var result = options.call(fixture, {});
-        expect(result).to.eql(fixture);
+        var result = options.call(current, {});
+        expect(result).to.eql(current);
     });
 
-    it('returns a merged object', function () {
-        var result = options.call(fixture, {
-            level: 'two'
-        });
-        expect(result.level).to.eql('two');
+    it('does not override options if key already exists', function () {
+
+        var result = options.call(current, {
+                level: 'two'
+            });
+
+        expect(result.level).to.eql('one');
+
+    });
+
+    it('adds additional defaults if not set', function () {
+
+        var result = options.call(current, {
+                additional: 'level'
+            });
+
+        expect(result.additional).to.eql('level');
+
     });
 
 });

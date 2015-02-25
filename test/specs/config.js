@@ -158,13 +158,23 @@ describe('gulp-config', function () {
 
         });
 
-        it('this.options() overrides or sets a value', function () {
+        it('this.options() applies defaults or sets a value', function () {
 
             ['one', 'two'].forEach(function (item) {
-                var scope = tasks[item].thisValues[0];
-                expect(scope.options({
-                    level: 'two'
-                }).level).to.eql('two');
+                var scope  = tasks[item].thisValues[0],
+                    result = scope.options({
+                        level: 'two'
+                    });
+                expect(result.level).to.eql(item);
+            });
+
+            ['one', 'two'].forEach(function (item) {
+                var scope = tasks[item].thisValues[0],
+                    result = scope.options({
+                        additional: 'level'
+                    });
+                expect(Object.keys(result).length).to.equal(2);
+                expect(result.additional).to.equal('level');
             });
 
         });
